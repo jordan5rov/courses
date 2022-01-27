@@ -71,8 +71,12 @@ WSGI_APPLICATION = 'TFT.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'defaultdb',
+        'USER': 'doadmin',
+        'PASSWORD': 'qdR8nVGFDOQv6KIM',
+        'HOST': 'db-postgresql-fra1-59717-do-user-10720553-0.b.db.ondigitalocean.com',
+        'PORT': '25060',
     }
 }
 
