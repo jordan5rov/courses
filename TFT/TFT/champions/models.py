@@ -22,4 +22,4 @@ class Champion(models.Model):
                                     blank=True,
                                     null=True,
                                     related_name='third_trait')
-
+    price = models.IntegerField(null=False)
