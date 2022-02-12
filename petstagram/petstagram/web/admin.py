@@ -1,13 +1,22 @@
 from django.contrib import admin
 
-from petstagram.web.models import Profile, Pet
+from petstagram.web.models import Profile, Pet, PetPhoto
+
+
+class PetInlineAdmin(admin.StackedInline):
+    model = Pet
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    pass
+    inlines = (PetInlineAdmin,)
 
 
 @admin.register(Pet)
 class PetAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(PetPhoto)
+class PetPhotoAdmin(admin.ModelAdmin):
     pass
