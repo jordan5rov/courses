@@ -32,7 +32,20 @@ def show_dashboard(request):
 
 
 def show_profile(request):
-    return render(request, 'profile_details.html')
+    profile = get_profile()
+    total_likes_count = sum(pp.likes for pp in PetPhoto.objects
+                            .filter(tagged_pets__user_profile=profile)
+                            .distinct())
+    total_pet_photos_count = len(PetPhoto.objects
+                                 .filter(tagged_pets__user_profile=profile)
+                                 .distinct())
+
+    context = {
+        'profile': profile,
+        'total_likes_count': total_likes_count,
+        'total_pet_photos_count': total_pet_photos_count,
+    }
+    return render(request, 'profile_details.html', context)
 
 
 def show_pet_photo_details(request, pk):
