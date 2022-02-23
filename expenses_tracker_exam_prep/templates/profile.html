@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+ <h1>Your Profile</h1>
+    <div class="expenses-container">
+        <div class="expense-container">
+            <h2>Aleksandra Raykova</h2>
+            <img src="{% static 'images/user.png' %}" alt="profile pic">
+            <p>Total Items Bought: 2</p>
+            <p>Budget Left: 100.00$</p>
+            <div class="right">
+                <a class="button edit" href="#">Edit Profile</a>
+                <a class="button delete" href="#">Delete Profile</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
