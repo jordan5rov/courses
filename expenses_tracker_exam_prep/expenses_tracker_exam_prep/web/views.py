@@ -1,15 +1,20 @@
 from django.shortcuts import render, redirect
 
+from expenses_tracker_exam_prep.web.forms import CreateProfileForm, EditProfileForm
+from expenses_tracker_exam_prep.web.models import Profile, Expense
+
 
 def get_profile():
-    # return None
-    return 1
+    profiles = Profile.objects.all()
+    if profiles:
+        return profiles[0]
+    return None
 
 
 def show_index(request):
     profile = get_profile()
     if not profile:
-        return redirect('profile create')
+        return redirect('create profile')
     return render(request, 'home-with-profile.html')
 
 
@@ -26,15 +31,50 @@ def delete_expense(request, pk):
 
 
 def show_profile(request):
-    return render(request, 'profile.html')
+    profile = get_profile()
+    expenses = Expense.objects.all()
+
+    budget_left = profile.budget - sum(e.price for e in expenses)
+    expenses_count = len(expenses)
+
+    context = {
+        'profile': profile,
+        'expenses_count': expenses_count,
+        'budget_left': budget_left,
+    }
+    return render(request, 'profile.html', context)
 
 
 def create_profile(request):
-    return render(request, 'home-no-profile.html')
+    if request.method == 'POST':
+        form = CreateProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home page')
+    else:
+        form = CreateProfileForm()
+    context = {
+        'form': form,
+        'profile_status': True,
+    }
+    return render(request, 'home-no-profile.html', context)
 
 
 def edit_profile(request):
-    return render(request, 'profile-edit.html')
+    profile = get_profile()
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('home page')
+    else:
+        form = EditProfileForm(instance=profile)
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'profile-edit.html', context)
 
 
 def delete_profile(request):
