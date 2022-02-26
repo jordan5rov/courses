@@ -66,3 +66,6 @@ class Expense(models.Model):
         null=True,
         blank=True,
     )
+
+    class Meta:
+        ordering = ('title', 'price')
