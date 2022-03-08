@@ -61,6 +61,7 @@ class Profile(models.Model):
         choices=GENDERS,
         null=True,
         blank=True,
+        default=DO_NOT_SHOW,
     )
 # if value == 'Male': => Bad
 # if value == Profile.MALE => Good

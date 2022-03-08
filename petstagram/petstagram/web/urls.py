@@ -12,8 +12,8 @@ urlpatterns = (
 
     path('profile/', show_profile, name='profile'),
     path('profile/create/', create_profile, name='create profile'),
-    path('profile/edit/<int:pk>/', edit_profile, name='edit profile'),
-    path('profile/delete/<int:pk>/', delete_profile, name='delete profile'),
+    path('profile/edit/', edit_profile, name='edit profile'),
+    path('profile/delete/', delete_profile, name='delete profile'),
 
     path('pet/create/', create_pet, name='create pet'),
     path('pet/add/<int:pk>/', edit_pet, name='edit pet'),
