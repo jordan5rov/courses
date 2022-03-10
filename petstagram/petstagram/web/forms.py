@@ -74,3 +74,18 @@ class DeleteProfileForm(forms.ModelForm):
         model = Profile
         fields = ()
         # exclude = ('first_name', 'last_name', 'picture', 'email', 'description', 'date_of_birth', 'gender')
+
+
+class CreatePetForm(BootstrapFormMixin, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap_form_controls()
+
+    class Meta:
+        model = Pet
+        fields = ('name', 'type', 'date_of_birth')
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'placeholder': 'Enter your pet\'s name',
+            })}
+
