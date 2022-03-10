@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
-from petstagram.web.forms import ProfileForm, EditProfileForm
-from petstagram.web.models import Pet, PetPhoto
+from petstagram.web.forms import CreateProfileForm, EditProfileForm, DeleteProfileForm
+from petstagram.web.models import Pet, PetPhoto, Profile
 from petstagram.web.helpers import get_profile
 
 
@@ -23,34 +23,27 @@ def show_profile(request):
     return render(request, 'profile_details.html', context)
 
 
-def create_profile(request):
+def profile_actions(request, form_class, success_url, instance, template_name):
     if request.method == 'POST':
         # create form with post
-        form = ProfileForm(request.POST)
+        form = form_class(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect(success_url)
     else:
         # create empty form
-        form = ProfileForm()
+        form = form_class()
     context = {'form': form}
-    return render(request, 'profile_create.html', context)
+    return render(request, template_name, context)
+
+
+def create_profile(request):
+    return profile_actions(request, CreateProfileForm, 'index', Profile(), 'profile_create.html')
 
 
 def edit_profile(request):
-    profile = get_profile()
-    if request.method == 'POST':
-        # create form with post
-        form = EditProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
-    else:
-        # create empty form
-        form = EditProfileForm()
-    context = {'form': form}
-    return render(request, 'profile_edit.html', context)
+    return profile_actions(request, EditProfileForm, 'profile', get_profile(), 'profile_edit.html')
 
 
 def delete_profile(request):
-    return render(request, 'profile_delete.html')
+    return profile_actions(request, DeleteProfileForm, 'index', get_profile(), 'profile_delete.html')
