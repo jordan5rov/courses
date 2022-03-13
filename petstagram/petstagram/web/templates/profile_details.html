@@ -34,24 +34,21 @@
             </div>
         </div>
     </div>
+    <!-- Pets Information -->
+<h2 class="text-center">My Pets</h2>
+<div class="container mb-4">
+    <div class="d-flex justify-content-start mb-5">
+        <!-- Info for First Pet -->
+        {% for pet in pets %}
+        <div style="width: 18rem;">
+            <h5>{{ pet.name }}</h5>
+            {% if pet.date_of_birth %}
+                <p class="mt-2">Age: {{ pet.age }}</p>
+            {% endif %}
+            <a href="{% url 'edit pet' pet.pk %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'delete pet' pet.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
-<!-- Pets Information -->
-{#<h2 class="text-center">My Pets</h2>#}
-{#<div class="container mb-4">#}
-{#    <div class="d-flex justify-content-start mb-5">#}
-{#        <!-- Info for First Pet -->#}
-{#        <div style="width: 18rem;">#}
-{#            <h5>Andrew</h5>#}
-{#            <p class="mt-2">Age: 3</p>#}
-{#            <a href="#" class="btn btn-primary">Edit</a>#}
-{#            <a href="#" class="btn btn-danger">Delete</a>#}
-{#        </div>#}
-{##}
-{#        <!-- Info for Second Pet -->#}
-{#        <div style="width: 18rem;">#}
-{#            <h5>Otto</h5>#}
-{#            <a href="#" class="btn btn-primary">Edit</a>#}
-{#            <a href="#" class="btn btn-danger">Delete</a>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}

@@ -1,9 +1,11 @@
+from datetime import date
 from random import choices
 
 import instance as instance
 from django import forms
+from django.core.exceptions import ValidationError
 
-from petstagram.web.helpers import BootstrapFormMixin
+from petstagram.web.helpers import BootstrapFormMixin, DisableFieldsFormMixin
 from petstagram.web.models import Profile, Pet, PetPhoto
 
 
@@ -62,8 +64,7 @@ class EditProfileForm(BootstrapFormMixin, forms.ModelForm):
 
 
 class DeleteProfileForm(forms.ModelForm):
-
-    def save(self):
+    def save(self, commit=True):
         pets = list(self.instance.pet_set.all())
         pet_photos = PetPhoto.objects.filter(tagged_pets__in=pets)
         pet_photos.delete()
@@ -89,3 +90,39 @@ class CreatePetForm(BootstrapFormMixin, forms.ModelForm):
                 'placeholder': 'Enter your pet\'s name',
             })}
 
+
+class EditPetForm(BootstrapFormMixin, forms.ModelForm):
+    MIN_DATE_OF_BIRTH = date(1920, 1, 1)
+    MAX_DATE_OF_BIRTH = date.today()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap_form_controls()
+
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data['date_of_birth']
+        if date_of_birth < self.MIN_DATE_OF_BIRTH or \
+                self.MAX_DATE_OF_BIRTH > date_of_birth:
+            raise ValidationError(
+                'Date of birth must be between 1920/1/1 and now'
+            )
+        return date_of_birth
+
+    class Meta:
+        model = Pet
+        exclude = ('user_profile',)
+
+
+class DeletePetForm(BootstrapFormMixin, DisableFieldsFormMixin, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._init_bootstrap_form_controls()
+        self._init_disabled_fields()
+
+    def save(self, commit=True):
+        self.instance.delete()
+        return self.instance
+
+    class Meta:
+        model = Pet
+        fields = ()

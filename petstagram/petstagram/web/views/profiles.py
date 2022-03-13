@@ -19,6 +19,7 @@ def show_profile(request):
         'profile': profile,
         'total_likes_count': total_likes_count,
         'total_pet_photos_count': total_pet_photos_count,
+        'pets': pets,
     }
     return render(request, 'profile_details.html', context)
 
