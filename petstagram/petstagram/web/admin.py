@@ -9,7 +9,7 @@ class PetInlineAdmin(admin.StackedInline):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    inlines = (PetInlineAdmin,)
+    # inlines = (PetInlineAdmin,)
     list_display = ('first_name', 'last_name')
 
 

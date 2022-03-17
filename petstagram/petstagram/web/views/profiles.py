@@ -21,7 +21,7 @@ def show_profile(request):
         'total_pet_photos_count': total_pet_photos_count,
         'pets': pets,
     }
-    return render(request, 'profile_details.html', context)
+    return render(request, 'web/profile_details.html', context)
 
 
 def profile_actions(request, form_class, success_url, instance, template_name):
@@ -39,12 +39,12 @@ def profile_actions(request, form_class, success_url, instance, template_name):
 
 
 def create_profile(request):
-    return profile_actions(request, CreateProfileForm, 'index', Profile(), 'profile_create.html')
+    return profile_actions(request, CreateProfileForm, 'index', Profile(), 'web/profile_create.html')
 
 
 def edit_profile(request):
-    return profile_actions(request, EditProfileForm, 'profile', get_profile(), 'profile_edit.html')
+    return profile_actions(request, EditProfileForm, 'profile', get_profile(), 'web/profile_edit.html')
 
 
 def delete_profile(request):
-    return profile_actions(request, DeleteProfileForm, 'index', get_profile(), 'profile_delete.html')
+    return profile_actions(request, DeleteProfileForm, 'index', get_profile(), 'web/profile_delete.html')

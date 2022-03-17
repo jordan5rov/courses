@@ -13,7 +13,7 @@ def show_pet_photo_details(request, pk):
         'pet_photo': pet_photo,
     }
 
-    return render(request, 'photo_details.html', context)
+    return render(request, 'web/photo_details.html', context)
 
 
 def like_pet_photo(request, pk):
@@ -26,8 +26,8 @@ def like_pet_photo(request, pk):
 
 
 def create_pet_photo(request):
-    return render(request, 'photo_create.html')
+    return render(request, 'web/photo_create.html')
 
 
 def edit_pet_photo(request):
-    return render(request, 'photo_edit.html')
+    return render(request, 'web/photo_edit.html')
