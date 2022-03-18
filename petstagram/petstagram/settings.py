@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -64,11 +65,11 @@ WSGI_APPLICATION = 'petstagram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'petstagram_db',
-        'USER': 'postgres',
-        'PASSWORD': '1qaz2wsx',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': 'petstagram',
+        'USER': 'doadmin',
+        'PASSWORD': 'qdR8nVGFDOQv6KIM',
+        'HOST': 'db-postgresql-fra1-59717-do-user-10720553-0.b.db.ondigitalocean.com',
+        'PORT': '25060',
     }
 }
 
@@ -108,6 +109,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
