@@ -3,14 +3,14 @@ from django.urls import path
 from petstagram.web.views.generic import DashboardView, HomeView
 from petstagram.web.views.pet_photos import PetPhotoDetailsView, like_pet_photo, CreatePetPhotoView, edit_pet_photo
 from petstagram.web.views.pets import CreatePetView, EditPetView, DeletePetView
-from petstagram.web.views.profiles import show_profile, create_profile, edit_profile, delete_profile
+from petstagram.web.views.profiles import create_profile, edit_profile, delete_profile, ProfileDetailsView
 
 # NOTE commas are very important
 urlpatterns = (
     path('', HomeView.as_view(), name='index'),
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
 
-    path('profile/', show_profile, name='profile'),
+    path('profile/<int:pk>', ProfileDetailsView.as_view(), name='profile'),
     path('profile/create/', create_profile, name='create profile'),
     path('profile/edit/', edit_profile, name='edit profile'),
     path('profile/delete/', delete_profile, name='delete profile'),

@@ -35,6 +35,7 @@ class CreatePetView(views.CreateView):
     form_class = CreatePetForm
     success_url = reverse_lazy('dashboard')
 
+    # if form
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user

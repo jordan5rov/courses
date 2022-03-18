@@ -158,3 +158,7 @@ class PetPhoto(models.Model):
     likes = models.IntegerField(
         default=0,
     )
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )

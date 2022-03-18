@@ -1,27 +1,39 @@
 from django.shortcuts import render, redirect
-
+from django.views import generic as views
+from django.contrib.auth import mixins as auth_mixins
 from petstagram.web.forms import CreateProfileForm, EditProfileForm, DeleteProfileForm
 from petstagram.web.models import Pet, PetPhoto, Profile
 from petstagram.web.helpers import get_profile
 
 
-def show_profile(request):
-    profile = get_profile()
-    pets = Pet.objects.filter(user_profile=profile)
-    pet_photos = PetPhoto.objects \
-        .filter(tagged_pets__in=pets) \
-        .distinct()
+# def show_profile(request):
+#     profile = get_profile()
+#
+#     return render(request, 'web/profile_details.html', context)
 
-    total_likes_count = sum(pp.likes for pp in pet_photos)
-    total_pet_photos_count = len(pet_photos)
+# we need LoginRequiredMixin in order to get the profile with self.object.user.id
+class ProfileDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
+    model = Profile
+    template_name = 'web/profile_details.html'
+    object_context_name = 'profile'
 
-    context = {
-        'profile': profile,
-        'total_likes_count': total_likes_count,
-        'total_pet_photos_count': total_pet_photos_count,
-        'pets': pets,
-    }
-    return render(request, 'web/profile_details.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pets = Pet.objects.filter(user_id=self.object.user.id)
+        pet_photos = PetPhoto.objects \
+            .filter(tagged_pets__in=pets) \
+            .distinct()
+
+        total_likes_count = sum(pp.likes for pp in pet_photos)
+        total_pet_photos_count = len(pet_photos)
+
+        context.update({
+            'total_likes_count': total_likes_count,
+            'total_pet_photos_count': total_pet_photos_count,
+            'pets': pets,
+            'is_owner': self.object.user == self.request.user
+        })
+        return context
 
 
 def profile_actions(request, form_class, success_url, instance, template_name):
