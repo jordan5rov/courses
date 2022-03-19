@@ -4,7 +4,7 @@ from django.conf import settings
 import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
-import petstagram.web.validators
+import petstagram.common.validators
 
 
 class Migration(migrations.Migration):
@@ -33,8 +33,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('first_name', models.CharField(max_length=30, validators=[django.core.validators.MinLengthValidator(2), petstagram.web.validators.validate_only_letters])),
-                ('last_name', models.CharField(max_length=30, validators=[django.core.validators.MinLengthValidator(2), petstagram.web.validators.validate_only_letters])),
+                ('first_name', models.CharField(max_length=30, validators=[django.core.validators.MinLengthValidator(2), petstagram.common.validators.validate_only_letters])),
+                ('last_name', models.CharField(max_length=30, validators=[django.core.validators.MinLengthValidator(2), petstagram.common.validators.validate_only_letters])),
                 ('picture', models.URLField()),
                 ('date_of_birth', models.DateField(blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True)),

@@ -1,13 +1,4 @@
-from attr.validators import disabled
-
-from petstagram.web.models import Profile
-
-
-def get_profile():
-    profiles = Profile.objects.all()
-    if profiles:
-        return profiles[0]
-    return None
+from django import forms
 
 
 class BootstrapFormMixin:
@@ -19,10 +10,10 @@ class BootstrapFormMixin:
                 setattr(field.widget, 'attrs', {})
             if 'class' not in field.widget.attrs:
                 field.widget.attrs['class'] = ''
-            field.widget.attrs['class'] += 'form-control'
+            field.widget.attrs['class'] += ' form-control'
 
 
-class DisableFieldsFormMixin:
+class DisabledFieldsFormMixin:
     disabled_fields = '__all__'
     fields = {}
 
@@ -33,5 +24,7 @@ class DisableFieldsFormMixin:
 
             if not hasattr(field.widget, 'attrs'):
                 setattr(field.widget, 'attrs', {})
-
-            field.widget.attrs['readonly'] = 'readonly'
+            if isinstance(field, forms.ChoiceField):
+                field.widget.attrs['disabled'] = 'readonly'
+            else:
+                field.widget.attrs['readonly'] = 'readonly'

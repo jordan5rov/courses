@@ -44,5 +44,11 @@ def like_pet_photo(request, pk):
     return redirect('pet photo details', pk)
 
 
-def edit_pet_photo(request):
-    return render(request, 'web/photo_edit.html')
+class EditPetPhotoView(views.UpdateView):
+    model = PetPhoto
+    template_name = 'web/photo_edit.html'
+    fields = ('description',)
+
+    # success_url = reverse_lazy('edit pet photo')
+    def get_success_url(self):
+        return reverse_lazy('pet photo details', kwargs={'pk': self.object.id})
