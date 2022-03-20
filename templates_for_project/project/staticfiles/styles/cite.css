@@ -1,0 +1,14 @@
+@import "nav.css";
+@import "background_styles.css";
+/*@import "grid.css";*/
+@import "home.css";
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
